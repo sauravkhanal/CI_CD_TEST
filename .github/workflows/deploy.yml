@@ -34,6 +34,7 @@ jobs:
   # Job 2: Deploy to Ubuntu Server
   deploy:
     name: Deploy to Ubuntu Server
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
@@ -45,12 +46,6 @@ jobs:
 
       # 2. Pull and run Docker image on the server
       - name: Deploy on Ubuntu Server
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          APP_NAME: ${{ secrets.APP_NAME }}
-          APP_PORT: ${{ secrets.APP_PORT }}
         run: |
           ssh -o StrictHostKeyChecking=no "$SSH_USER"@"$SERVER_IP" << 'EOF'
             # Pull the latest image
