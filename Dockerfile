@@ -1,6 +1,6 @@
 # Stage 1: Build the application
 # 1. Select the Node.js base image (slim version for smaller size)
-FROM node:20 AS build_stage
+FROM node:18 AS build_stage
 
 # 2. Set the working directory to /build
 WORKDIR /build
