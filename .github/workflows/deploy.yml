@@ -25,11 +25,11 @@ jobs:
 
       # 3. Build Docker image
       - name: Build Docker Image
-        run: docker build -t ${{secrets.DOCKER_USERNAME}}/${{env.APP_NAME}}:latest .
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/${{secrets.APP_NAME}}:latest .
 
       # 4. Push Docker image to Docker Hub
       - name: Push Docker Image
-        run: docker push ${{secrets.DOCKER_USERNAME}}/${{env.APP_NAME}}:latest
+        run: docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.APP_NAME}}:latest
 
   # Job 2: Deploy to Ubuntu Server
   deploy:
@@ -47,8 +47,8 @@ jobs:
       - name: Deploy on Ubuntu Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SERVER_IP}} << "EOF"
-          docker pull ${{secrets.DOCKER_USERNAME}}/${{env.APP_NAME}}:latest
-          docker stop ${{env.APP_NAME}} || true
-          docker rm ${{env.APP_NAME}} || true
-          docker run -d --name ${{ env.APP_NAME }} -p ${{ env.APP_PORT }}:80 ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}
+          docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.APP_NAME}}:latest
+          docker stop ${{secrets.APP_NAME}} || true
+          docker rm ${{secrets.APP_NAME}} || true
+          docker run -d --name ${{ secrets.APP_NAME }} -p ${{ secrets.APP_PORT }}:80 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.APP_NAME }}
           EOF
