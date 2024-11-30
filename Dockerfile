@@ -6,16 +6,17 @@ FROM node:20 AS build_stage
 WORKDIR /build
 
 # 3. Copy package.json and package-lock.json into the working directory
-COPY package*.json . 
+COPY package.lock . 
+COPY yarn.lock . 
 
 # 4. Install dependencies
-RUN npm ci
+RUN yarn install
 
 # 5. Copy the source code into the working directory
 COPY . .
 
 # 6. Build the application (output will be in the `dist` folder)
-RUN npm run build
+RUN yarn run build
 
 # Stage 2: Host the application with Nginx
 # 7. Select the Nginx base image (alpine version for smaller size)
