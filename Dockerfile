@@ -9,7 +9,7 @@ WORKDIR /build
 COPY package*.json . 
 
 # 4. Install dependencies
-RUN npm install
+RUN npm ci
 
 # 5. Copy the source code into the working directory
 COPY . .
