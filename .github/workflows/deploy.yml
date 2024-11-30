@@ -47,19 +47,9 @@ jobs:
       # 2. Pull and run Docker image on the server
       - name: Deploy on Ubuntu Server
         run: |
-          ssh -o StrictHostKeyChecking=no "$SSH_USER"@"$SERVER_IP" << 'EOF'
-            # Pull the latest image
-            docker pull "$DOCKER_USERNAME/$APP_NAME:latest"
-            
-            # Stop existing container (if exists)
-            if docker ps -a | grep -q "$APP_NAME"; then
-              docker stop "$APP_NAME"
-              docker rm "$APP_NAME"
-            fi
-            
-            # Run new container
-            docker run -d \
-              --name "$APP_NAME" \
-              -p "$APP_PORT":80 \
-              "$DOCKER_USERNAME/$APP_NAME:latest"
+          ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SERVER_IP}} << "EOF"
+          docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.APP_NAME}}:latest
+          docker stop ${{secrets.APP_NAME}} || true
+          docker rm ${{secrets.APP_NAME}} || true
+          docker run -d --name ${{ secrets.APP_NAME }} -p ${{ secrets.APP_PORT }}:80 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.APP_NAME }}
           EOF
