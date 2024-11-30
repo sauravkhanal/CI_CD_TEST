@@ -6,7 +6,7 @@ FROM node:20 AS build_stage
 WORKDIR /build
 
 # 3. Copy package.json and package-lock.json into the working directory
-COPY package.lock . 
+COPY package.json . 
 COPY yarn.lock . 
 
 # 4. Install dependencies
