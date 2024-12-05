@@ -7,7 +7,7 @@ WORKDIR /build
 
 # 3. Copy package.json and package-lock.json into the working directory
 COPY package.json . 
-COPY package.lock.json . 
+# COPY package.lock.json . 
 
 # 4. Install dependencies
 RUN npm install
