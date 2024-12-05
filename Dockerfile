@@ -7,16 +7,16 @@ WORKDIR /build
 
 # 3. Copy package.json and package-lock.json into the working directory
 COPY package.json . 
-COPY yarn.lock . 
+COPY package.lock.json . 
 
 # 4. Install dependencies
-RUN yarn install
+RUN npm install
 
 # 5. Copy the source code into the working directory
 COPY . .
 
 # 6. Build the application (output will be in the `dist` folder)
-RUN yarn run build
+RUN npm run build
 
 # Stage 2: Host the application with Nginx
 # 7. Select the Nginx base image (alpine version for smaller size)
